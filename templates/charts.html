@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Charts</title>
+</head>
+<body>
+<a href="{% url 'index' %}">BACK</a><br>
+    {% for entry in entries %}
+    {{ entry.region }} - {{ entry.city }}: {{ entry.value }}<br>
+    {% endfor %}
+
+</body>
+</html>

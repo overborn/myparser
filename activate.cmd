@@ -1,0 +1,2 @@
+cd venv\scripts
+activate

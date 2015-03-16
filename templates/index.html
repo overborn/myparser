@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index page</title>
+</head>
+<body>
+<a href="{% url 'delete' %}">delete all entries</a><br>
+<a href="{% url 'charts' %}">watch entries</a><br>
+    <form method="post" action="{% url 'index' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        {{ form.source }}<br>
+        <button type="submit" name="submit">add</button>
+    </form>
+
+
+</body>
+</html>
