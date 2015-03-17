@@ -24,7 +24,7 @@ class CSV_Parser(ParserCLass):
 class JSON_Parser(ParserCLass):
     def parse_and_save(self):
         obj = json.load(self.source)
-        for entry in obj['data']:
+        for entry in obj['data']:            
             e = Entry.create(entry[obj['structure'][0]],
                              entry[obj['structure'][1]],
                              entry[obj['structure'][2]])

@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^index/', 'charts.views.index', name='index'),
     url(r'^charts/', 'charts.views.charts', name='charts'),
     url(r'^delete/', 'charts.views.delete_entries', name='delete'),
+    url(r'^build_chart/', 'charts.views.build_chart', name='build_chart'),
 )

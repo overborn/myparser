@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response, HttpResponseRedirect
+from django.shortcuts import render_to_response, HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
-from charts.forms import FileForm
+from charts.forms import FileForm, ChartForm
 from charts.ParserClass import CSV_Parser, JSON_Parser, XLS_Parser
 from charts.models import Entry
+import json
 
 
 def index(request):
@@ -32,9 +33,21 @@ def index(request):
 
 def charts(request):
     context = RequestContext(request)
-    entries = Entry.objects.all()
-    context_dict = {'entries': entries}
+    regions = Entry.objects.values('region').distinct()
+    choices = [(reg['region'], reg['region']) for reg in regions]
+    form = ChartForm(choices=choices)
+    context_dict = {'form': form}
     return render_to_response('charts.html', context_dict, context)
+
+def build_chart(request):
+    if request.method == "GET":
+        region = request.GET['region']
+        data = {}
+        entries = Entry.objects.filter(region=region)
+        data['xAxis'] = [e.city for e in entries]
+        data['yAxis'] = [e.value for e in entries]
+        return HttpResponse(json.dumps(data), content_type="application/json")
+
 
 
 def delete_entries(request):
