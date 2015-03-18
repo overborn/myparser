@@ -33,11 +33,12 @@ def index(request):
 
 def charts(request):
     context = RequestContext(request)
-    regions = Entry.objects.values('region').distinct()
-    choices = [(reg['region'], reg['region']) for reg in regions]
+    regions = Entry.objects.values_list('region', flat=True).distinct()
+    choices = [(reg, reg) for reg in regions]
     form = ChartForm(choices=choices)
     context_dict = {'form': form}
     return render_to_response('charts.html', context_dict, context)
+
 
 def build_chart(request):
     if request.method == "GET":
@@ -47,7 +48,6 @@ def build_chart(request):
         data['xAxis'] = [e.city for e in entries]
         data['yAxis'] = [e.value for e in entries]
         return HttpResponse(json.dumps(data), content_type="application/json")
-
 
 
 def delete_entries(request):
